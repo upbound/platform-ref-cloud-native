@@ -1,0 +1,149 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: services.cloudnative.platformref.crossplane.io
+  labels:
+    provider: helm
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: cloudnative.platformref.crossplane.io/v1alpha1
+    kind: Services
+  resources:
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: operators
+            chart:
+              # from https://github.com/prometheus-community/helm-charts
+              # Note that default values are overridden by the patches below.
+              name: kube-prometheus-stack
+              repository: https://prometheus-community.github.io/helm-charts
+              version: "14.5.0"
+            values: {}
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+        # Derive the Prometheus operator version from the XR.
+        - fromFieldPath: spec.operators.prometheus.version
+          toFieldPath: spec.forProvider.chart.version
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: operators
+            chart:
+              # from https://artifacthub.io/packages/helm/jaegertracing/jaeger
+              # Note that default values are overridden by the patches below.
+              name: jaeger
+              repository: https://jaegertracing.github.io/helm-charts
+              version: "0.45.0"
+            values: {}
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+        # Derive the Jaeger operator version from the XR.
+        - fromFieldPath: spec.operators.jaeger.version
+          toFieldPath: spec.forProvider.chart.version
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: operators
+            chart:
+              # from https://artifacthub.io/packages/helm/bitnami/fluentd
+              # Note that default values are overridden by the patches below.
+              name: fluentd
+              repository: https://charts.bitnami.com/bitnami
+              version: "3.6.4"
+            values: {}
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+        # Derive the Fluentd operator version from the XR.
+        - fromFieldPath: spec.operators.fluentd.version
+          toFieldPath: spec.forProvider.chart.version
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: operators
+            chart:
+              # from https://rook.io/docs/rook/v1.5/helm-operator.html
+              # Note that default values are overridden by the patches below.
+              name: rook-ceph
+              repository: https://charts.rook.io/release
+              version: "v1.5.9"
+            values: {}
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+        # Derive the Rook operator version from the XR.
+        - fromFieldPath: spec.operators.rook.version
+          toFieldPath: spec.forProvider.chart.version
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: operators
+            chart:
+              # from https://github.com/fluxcd/flux/blob/master/chart/flux
+              # Note that default values are overridden by the patches below.
+              name: flux
+              repository: https://charts.fluxcd.io
+              version: "1.8.0"
+            values:
+              git:
+                url: "git@github.com:fluxcd/flux-get-started"
+                readonly: true
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+        # Derive the Flux operator version and git config from the XR.
+        - fromFieldPath: spec.operators.flux.version
+          toFieldPath: spec.forProvider.chart.version
+        - fromFieldPath: spec.operators.flux.url
+          toFieldPath: spec.forProvider.values.git.url
+        - fromFieldPath: spec.operators.flux.readonly
+          toFieldPath: spec.forProvider.values.git.readonly

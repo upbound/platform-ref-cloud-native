@@ -1,0 +1,52 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: gcp.clusters.cloudnative.platformref.crossplane.io
+  labels:
+    provider: GCP
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: cloudnative.platformref.crossplane.io/v1alpha1
+    kind: Cluster
+  resources:
+    - base:
+        apiVersion: cloudnative.platformref.crossplane.io/v1alpha1
+        kind: GKE
+      connectionDetails:
+        - fromConnectionSecretKey: kubeconfig
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.clusterName
+        - fromFieldPath: metadata.uid
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-gke"
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+        - fromFieldPath: spec.nodes.count
+          toFieldPath: spec.nodes.count
+        - fromFieldPath: spec.nodes.size
+          toFieldPath: spec.nodes.size
+    - base:
+        apiVersion: cloudnative.platformref.crossplane.io/v1alpha1
+        kind: Services
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: spec.services.operators.prometheus.version
+          toFieldPath: spec.operators.prometheus.version
+        - fromFieldPath: spec.services.operators.jaeger.version
+          toFieldPath: spec.operators.jaeger.version
+        - fromFieldPath: spec.services.operators.fluentd.version
+          toFieldPath: spec.operators.fluentd.version
+        - fromFieldPath: spec.services.operators.rook.version
+          toFieldPath: spec.operators.rook.version
+        - fromFieldPath: spec.services.operators.flux.version
+          toFieldPath: spec.operators.flux.version
+        - fromFieldPath: spec.services.operators.flux.url
+          toFieldPath: spec.operators.flux.url
+        - fromFieldPath: spec.services.operators.flux.readonly
+          toFieldPath: spec.operators.flux.readonly

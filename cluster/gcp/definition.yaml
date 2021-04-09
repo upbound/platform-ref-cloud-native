@@ -1,0 +1,45 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: gke.cloudnative.platformref.crossplane.io
+spec:
+  connectionSecretKeys:
+    - kubeconfig
+  group: cloudnative.platformref.crossplane.io
+  names:
+    kind: GKE
+    plural: gke
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                clusterName:
+                  type: string
+                  description: Name of this Cluster that other objects will use to refer to it.
+                nodes:
+                  type: object
+                  description: GKE node configuration parameters.
+                  properties:
+                    count:
+                      type: integer
+                      description: Desired node count, from 1 to 100.
+                    size:
+                      type: string
+                      description: Size of node.
+                      enum:
+                        - small
+                        - medium
+                        - large
+                  required:
+                    - count
+                    - size
+              required:
+                - clusterName
+                - nodes

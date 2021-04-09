@@ -1,0 +1,27 @@
+apiVersion: cloudnative.platformref.crossplane.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: cloudnative-cluster-gcp
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: GCP
+  nodes:
+    count: 1
+    size: small
+  services:
+    operators:
+      prometheus:
+        version: "14.5.0"
+      jaeger:
+        version: "0.45.0"
+      fluentd:
+        version: "3.6.4"
+      rook:
+        version: "v1.5.9"
+      flux:
+        version: "1.8.0"
+        url: "git@github.com:jbw976/flux-get-started"
+        readonly: true
+  writeConnectionSecretToRef:
+    name: cluster-conn-gcp

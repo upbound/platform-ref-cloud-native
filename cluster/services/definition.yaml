@@ -1,0 +1,79 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: services.cloudnative.platformref.crossplane.io
+spec:
+  group: cloudnative.platformref.crossplane.io
+  names:
+    kind: Services
+    plural: services
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              operators:
+                type: object
+                description: Configuration for operators.
+                properties:
+                  prometheus:
+                    type: object
+                    description: Configuration for the Prometheus operator.
+                    properties:
+                      version:
+                        type: string
+                        description: Prometheus operator version to run.
+                  jaeger:
+                    type: object
+                    description: Configuration for the Jaeger operator.
+                    properties:
+                      version:
+                        type: string
+                        description: Jaeger operator version to run.
+                  fluentd:
+                    type: object
+                    description: Configuration for the Fluentd operator.
+                    properties:
+                      version:
+                        type: string
+                        description: Fluentd operator version to run.
+                  rook:
+                    type: object
+                    description: Configuration for the Rook operator.
+                    properties:
+                      version:
+                        type: string
+                        description: Rook operator version to run.
+                  flux:
+                    type: object
+                    description: Configuration for the Flux operator.
+                    properties:
+                      version:
+                        type: string
+                        description: Flux operator version to run.
+                      url:
+                        type: string
+                        description: URL of git repo with Kubernetes manifests to sync via Cloud
+                      readonly:
+                        type: boolean
+                        description: If true, the git repo will be considered read-only, Flux will not attempt to write to it
+              providerConfigRef:
+                type: object
+                description: "A reference to the ProviderConfig of the cluster that services should
+                be deployed to."
+                properties:
+                  name:
+                    type: string
+                    description: "Name of the Kubernetes provider configuration.
+                      This will typically be the name of the cluster with a
+                      five character suffix appended."
+                required:
+                - name
+            required:
+            - providerConfigRef

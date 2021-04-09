@@ -1,0 +1,160 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: clusters.cloudnative.platformref.crossplane.io
+  annotations:
+    upbound.io/ui-schema: |-
+      ---
+      configSections:
+      - title: Cluster Info
+        description: Information about this cluster
+        items:
+        - name: provider
+          controlType: singleSelect
+          path: ".spec.compositionSelector.matchLabels[provider]"
+          title: Cloud Provider
+          description: Select which cloud provider this cluster should be created in.
+          default: GCP
+          enum:
+          - GCP
+          validation:
+          - required: true
+            customError: Cloud provider is required.
+        - name: writeSecretRef
+          controlType: singleInput
+          type: string
+          path: ".spec.writeConnectionSecretToRef.name"
+          title: Connection Secret Ref
+          description: name of the connection secret to save the platform cluster credential in
+          default: cluster-conn
+          validation:
+          - required: true
+      - title: Cluster Nodes
+        description: Enter information to size your cluster
+        items:
+        - name: clusterNodeCount
+          controlType: singleInput
+          type: integer
+          path: ".spec.nodes.count"
+          title: Node Count
+          description: Number of nodes in the cluster
+          default: 1
+          validation:
+          - minimum: 1
+          - maximum: 100
+          - required: true
+            customError: Node count is required.
+        - name: clusterNodeSize
+          controlType: singleSelect
+          path: ".spec.nodes.size"
+          title: Node Size
+          description: Desired node count, from 1 to 100.
+          default: small
+          enum:
+          - small
+          - medium
+          - large
+          validation:
+          - required: true
+            customError: Node size is required.
+      - title: Cluster Services
+        description: Configure cluster services and operators
+        items:
+        - name: promVersion
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.prometheus.version"
+          title: Prometheus Chart Version
+          description: The version of kube-prometheus-stack chart to install
+          default: 10.1.0
+          validation:
+          - required: false
+spec:
+  claimNames:
+    kind: ClusterClaim
+    plural: clusterclaims
+  connectionSecretKeys:
+    - kubeconfig
+  group: cloudnative.platformref.crossplane.io
+  names:
+    kind: Cluster
+    plural: clusters
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                nodes:
+                  type: object
+                  description: Cluster node configuration parameters.
+                  properties:
+                    count:
+                      type: integer
+                      description: Desired node count, from 1 to 100.
+                    size:
+                      type: string
+                      description: Size of node.
+                      enum:
+                        - small
+                        - medium
+                        - large
+                  required:
+                    - count
+                    - size
+                services:
+                  type: object
+                  description: Services configuration parameters.
+                  properties:
+                    operators:
+                      type: object
+                      description: Configuration for operators.
+                      properties:
+                        prometheus:
+                          type: object
+                          description: Configuration for the Prometheus operator.
+                          properties:
+                            version:
+                              type: string
+                              description: Prometheus operator version to run.
+                        jaeger:
+                          type: object
+                          description: Configuration for the Jaeger operator.
+                          properties:
+                            version:
+                              type: string
+                              description: Jaeger operator version to run.
+                        fluentd:
+                          type: object
+                          description: Configuration for the Fluentd operator.
+                          properties:
+                            version:
+                              type: string
+                              description: Fluentd operator version to run.
+                        rook:
+                          type: object
+                          description: Configuration for the Rook operator.
+                          properties:
+                            version:
+                              type: string
+                              description: Rook operator version to run.
+                        flux:
+                          type: object
+                          description: Configuration for the Flux operator.
+                          properties:
+                            version:
+                              type: string
+                              description: Flux operator version to run.
+                            url:
+                              type: string
+                              description: URL of git repo with Kubernetes manifests to sync via Cloud
+                            readonly:
+                              type: boolean
+                              description: If true, the git repo will be considered read-only, Flux will not attempt to write to it
+              required:
+                - nodes

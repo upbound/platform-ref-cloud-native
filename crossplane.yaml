@@ -1,0 +1,51 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: platform-ref-cloud-native
+  annotations:
+    company: Upbound
+    maintainer: Jared Watts <jared@upbound.io>
+    keywords: cloud-native, cncf, kubernetes, example, platform, reference
+    source: github.com/upbound/platform-ref-cloud-native
+    license: Apache-2.0
+    descriptionShort: |
+      The Cloud Native application and platform services reference platform.
+
+    description: |
+      This Cloud Native application and platform services reference platform
+      is a starting point to build, run, and operate your own internal cloud
+      platform and offer a self-service console and API to your internal teams.
+
+    readme: |
+      This reference platform `Configuration` for Cloud Native applications and platform services is
+      a starting point to build, run, and operate your own internal cloud platform and offer a
+      self-service console and API to your internal teams.
+
+      It provides platform APIs to provision fully configured workload clusters, with secure
+      networking and a complete set of platform services that provide the foundation for running
+      cloud native applications.  This is a good example of how a platform team may provide a
+      complete platform for cloud native applications to run on, which includes continuous
+      deployment, monitoring, metrics, logging, etc.
+
+      The application team simply has to request a "cloud native platform" cluster through this
+      declarative platform API and they'll be ready to deploy their workloads to a complete platform
+      in no time.
+
+      [Quickstart Guide](https://github.com/upbound/platform-ref-cloud-native/#quick-start)
+
+      [APIs in this
+      Configuration](https://github.com/upbound/platform-ref-cloud-native/#apis-in-this-configuration)
+
+      To learn more checkout the [GitHub
+      repo](https://github.com/upbound/platform-ref-cloud-native/) that you can copy and customize
+      to meet the exact needs of your organization!
+
+    iconData: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHJvbGU9ImltZyIgdmlld0JveD0iMi43MCA0LjIwIDIxMC4zNCAyMTAuMzQiPjxzdHlsZT5zdmcge2VuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjE2IDIxNn08L3N0eWxlPjxwYXRoIGZpbGw9IiNkMmU0ZjQiIGQ9Ik03NC4zIDM3LjVsLS4yLS4zSDM1Ljh2MzguM2wuMi4zLS4yIDI1LjN2MzkuNmMxNC45LTEyIDI5LjgtMjQuMSA0NC41LTM2LjIgMy0yLjUgNC45LTIuNCA3LjcuNCAxMC45IDExLjEgMjIuMSAyMiAzMyAzMy4xIDIuMyAyLjQgNC4xIDIuNSA2LjcuNCA2LTQuOCAxMi4zLTkuMyAxOC4yLTE0LjIgMy4yLTIuNyA1LjYtMi41IDguOC0uMSA4LjMgNi4zIDE2LjggMTIuNCAyNS4zIDE4LjVsLjItMjQuOFYzNy4ySDk5LjZsLTI1LjMuM3ptNjkuMSAxMy4xYzEyLjQtLjEgMjIuMSA5LjcgMjIuMSAyMi4yIDAgMTItMTAgMjItMjIgMjItMTIuMyAwLTIyLjItOS43LTIyLjQtMjIuMS0uMS0xMi4xIDkuOS0yMiAyMi4zLTIyLjF6Ii8+PHBhdGggZmlsbD0iIzQzYWY1YSIgZD0iTTE0NS45IDEyNC4yYy01LjkgNC45LTEyLjIgOS40LTE4LjIgMTQuMi0yLjYgMi4xLTQuNCAyLTYuNy0uNC0xMC45LTExLjEtMjIuMS0yMi0zMy0zMy4xLTIuOC0yLjgtNC43LTIuOS03LjctLjQtMTQuNyAxMi4xLTI5LjYgMjQuMi00NC41IDM2LjJ2NDFoODAuNmwyNS4zLS4yLjIuMmgzOC4zdi0zOC4zbC0uMi0uMnYtLjZjLTguNS02LjEtMTctMTIuMy0yNS4zLTE4LjUtMy4yLTIuNC01LjYtMi42LTguOC4xeiIvPjxwYXRoIGZpbGw9IiNmZWQxNDciIGQ9Ik0xNDMuNSA5NC44YzEyIDAgMjItMTAgMjItMjIgMC0xMi41LTkuNy0yMi4zLTIyLjEtMjIuMi0xMi40LjEtMjIuNCAxMC0yMi4zIDIyLjEuMiAxMi40IDEwLjEgMjIuMSAyMi40IDIyLjF6Ii8+PHBhdGggZmlsbD0iIzQ0NmNhOSIgZD0iTTc0LjMgMTgxLjdIMzUuOHYtMzguNUg2Ljl2NjcuNGg2Ny40ek0xODAgMTQzLjJsLjIuMnYzOC4zaC0zOC4zbC0uMi0uMnYyOS4xaDY3LjR2LTY3LjR6TTM2IDc1LjhsLS4yLS4zVjM3LjJoMzguM2wuMi4zVjguNEg2Ljl2NjcuNHoiLz48cGF0aCBmaWxsPSIjMzM2NjlhIiBkPSJNMTQxLjcgOC40djI4LjhoMzguNXYzOC42aDI4LjlWOC40eiIvPjxwYXRoIGZpbGw9IiM3NmM0ZDUiIGQ9Ik03NC4zIDM3LjVsMjUuMy0uM2g0Mi4xVjguNEg3NC4zem02Ny40IDE0NGwtMjUuMy4ySDc0LjN2MjguOWg2Ny40em0zOC41LTEwNS43djQybC0uMiAyNC44di42aDI5LjFWNzUuOHpNMzUuOCAxNDMuMnYtNDIuMWwuMi0yNS4zSDYuOXY2Ny40eiIvPjwvc3ZnPg==
+spec:
+  crossplane:
+    version: ">=v1.0.0-0"
+  dependsOn:
+    - provider: registry.upbound.io/crossplane/provider-gcp
+      version: ">=v0.15.0-0"
+    - provider: registry.upbound.io/crossplane/provider-helm
+      version: ">=v0.5.0-0"
