@@ -48,7 +48,7 @@ metadata:
           controlType: singleSelect
           path: ".spec.nodes.size"
           title: Node Size
-          description: Desired node count, from 1 to 100.
+          description: The size of each node and it's general resource usage
           default: small
           enum:
           - small
@@ -65,10 +65,61 @@ metadata:
           type: string
           path: ".spec.services.operators.prometheus.version"
           title: Prometheus Chart Version
-          description: The version of kube-prometheus-stack chart to install
-          default: 10.1.0
+          description: The version of Prometheus chart to install
+          default: 14.5.0
           validation:
           - required: false
+        - name: jaegerVersion
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.jaeger.version"
+          title: Jaeger Chart Version
+          description: The version of Jaeger chart to install
+          default: 0.45.0
+          validation:
+          - required: false
+        - name: fluentdVersion
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.fluentd.version"
+          title: Fluentd Chart Version
+          description: The version of Fluentd chart to install
+          default: 3.6.4
+          validation:
+          - required: false
+        - name: rookVersion
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.rook.version"
+          title: Rook Chart Version
+          description: The version of Rook chart to install
+          default: v1.5.9
+          validation:
+          - required: false
+        - name: fluxVersion
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.flux.version"
+          title: Flux Chart Version
+          description: The version of Flux chart to install
+          default: 1.8.0
+          validation:
+          - required: false
+        - name: fluxUrl
+          controlType: singleInput
+          type: string
+          path: ".spec.services.operators.flux.url"
+          title: Application Git Repository URL
+          description: The URL for the Git repository containing the application to sync to the cluster
+          default: git@github.com:fluxcd/flux-get-started
+          validation:
+          - required: true
+        - name: fluxReadonly
+          controlType: checkboxSingle
+          path: ".spec.services.operators.flux.readonly"
+          title: Read-only Repository
+          description: If true, Flux will treat the application repository as read-only
+          default: true
 spec:
   claimNames:
     kind: ClusterClaim
