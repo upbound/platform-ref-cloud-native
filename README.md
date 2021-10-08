@@ -1,5 +1,5 @@
 # Cloud Native Reference Platform
-
+## Trivial Commit 
 This reference platform `Configuration` for Cloud Native applications and platform services is a
 starting point to build, run, and operate your own internal cloud platform and offer a self-service
 console and API to your internal teams.
